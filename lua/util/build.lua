@@ -33,9 +33,9 @@ function M.keymaps()
   vim.keymap.set = map
 
   group = "General"
-  dofile(root .. "/lua/lazyvim/config/keymaps.lua")
+  dofile(root .. "/lua/config/keymaps.lua")
   group = "LSP"
-  local lsp = dofile(root .. "/lua/lazyvim/plugins/lsp/keymaps.lua")
+  local lsp = dofile(root .. "/lua/plugins/lsp/keymaps.lua")
   for _, keys in ipairs(lsp.get()) do
     map(keys.mode or "n", keys[1], keys[2], keys)
   end
@@ -43,7 +43,7 @@ function M.keymaps()
 
   group = "Plugins"
 
-  local core = require("lazy.core.plugin").Spec.new({ import = "lazyvim.plugins" })
+  local core = require("lazy.core.plugin").Spec.new({ import = "plugins" })
   Util.foreach(core.plugins, function(name, plugin)
     group = ("[%s](%s)"):format(plugin.name, plugin.url)
     for _, key in ipairs(plugin.keys or {}) do
@@ -54,10 +54,10 @@ function M.keymaps()
     end
   end)
 
-  Util.walk(root .. "/lua/lazyvim/plugins/extras", function(path, name, t)
+  Util.walk(root .. "/lua/plugins/extras", function(path, name, t)
     if t == "file" and name:find("%.lua$") then
       local modname = path:gsub(".*/lua/", ""):gsub("/", "."):gsub("%.lua$", "")
-      local extra_doc = "/plugins/extras/" .. modname:gsub("lazyvim%.plugins%.extras%.", "")
+      local extra_doc = "/plugins/extras/" .. modname:gsub("plugins%.extras%.", "")
       local extra = require("lazy.core.plugin").Spec.new({ import = modname })
       Util.foreach(extra.plugins, function(name, plugin)
         group = ("[%s](%s)\nPart of [%s](%s)"):format(plugin.name, plugin.url, modname, extra_doc)
@@ -134,9 +134,9 @@ import TabItem from '@theme/TabItem';
       "</TabItem>",
       ([[<TabItem value="defaults" label="Default %s">]]):format(title),
       "",
-      ([[```lua title="lazyvim.config.%s"
+      ([[```lua title="config.%s"
 %s
-```]]):format(name, Util.read_file(vim.fn.fnamemodify(root .. "/lua/lazyvim/config/" .. name .. ".lua", ":p"))),
+```]]):format(name, Util.read_file(vim.fn.fnamemodify(root .. "/lua/config/" .. name .. ".lua", ":p"))),
       "",
       "</TabItem>",
       "</Tabs>",
@@ -177,7 +177,7 @@ end
 function M.update2()
   local docs = vim.fs.normalize("~/projects/lazyvim.github.io/docs")
 
-  local config = Docs.extract("lua/lazyvim/config/init.lua", "\nlocal defaults = ({.-\n})")
+  local config = Docs.extract("lua/config/init.lua", "\nlocal defaults = ({.-\n})")
 
   Docs.save({
     config = config,
@@ -203,7 +203,7 @@ function M.update2()
     keymaps = M.keymaps(),
   }, docs .. "/keymaps.md")
 
-  Util.walk(root .. "/lua/lazyvim/plugins/extras", function(path, name, type)
+  Util.walk(root .. "/lua/plugins/extras", function(path, name, type)
     if type == "file" and name:find("%.lua$") then
       local modname = path:gsub(".*/lua/", ""):gsub("/", "."):gsub("%.lua$", "")
       local lines = {} ---@type string[]
@@ -248,7 +248,7 @@ require("lazy").setup({
 end
 
 function M.plugins(path)
-  local test = root .. "/lua/lazyvim/plugins/" .. path
+  local test = root .. "/lua/plugins/" .. path
   local spec = require("lazy.core.plugin").Spec.new(dofile(test))
   local source = Util.read_file(test)
   local parser = vim.treesitter.get_string_parser(source, "lua")

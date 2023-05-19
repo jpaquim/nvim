@@ -12,10 +12,10 @@ local defaults = {
   end,
   -- load the default settings
   defaults = {
-    autocmds = true, -- lazyvim.config.autocmds
-    keymaps = true, -- lazyvim.config.keymaps
-    -- lazyvim.config.options can't be configured here since that's loaded before lazyvim setup
-    -- if you want to disable loading options, add `package.loaded["lazyvim.config.options"] = true` to the top of your init.lua
+    autocmds = true, -- config.autocmds
+    keymaps = true, -- config.keymaps
+    -- config.options can't be configured here since that's loaded before lazyvim setup
+    -- if you want to disable loading options, add `package.loaded["config.options"] = true` to the top of your init.lua
   },
   -- icons used by other plugins
   icons = {
@@ -152,11 +152,10 @@ function M.load(name)
       end,
     })
   end
-  -- always load lazyvim, then user file
+  -- always load lazyvim
   if M.defaults[name] or name == "options" then
-    _load("lazyvim.config." .. name)
+    _load("config." .. name)
   end
-  _load("config." .. name)
   if vim.bo.filetype == "lazy" then
     -- HACK: LazyVim may have overwritten options of the Lazy ui, so reset this here
     vim.cmd([[do VimResized]])
@@ -168,12 +167,12 @@ function M.init()
   if not M.did_init then
     M.did_init = true
     -- delay notifications till vim.notify was replaced or after 500ms
-    require("lazyvim.util").lazy_notify()
+    require("util").lazy_notify()
 
     -- load options here, before lazy init while sourcing plugin modules
     -- this is needed to make sure options will be correctly applied
     -- after installing missing plugins
-    require("lazyvim.config").load("options")
+    require("config").load("options")
     local Plugin = require("lazy.core.plugin")
     local add = Plugin.Spec.add
     Plugin.Spec.add = function(self, plugin, ...)

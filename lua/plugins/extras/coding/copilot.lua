@@ -14,7 +14,7 @@ return {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = function(_, opts)
-      local Util = require("lazyvim.util")
+      local Util = require("util")
       local colors = {
         [""] = Util.fg("Special"),
         ["Normal"] = Util.fg("Special"),
@@ -23,7 +23,7 @@ return {
       }
       table.insert(opts.sections.lualine_x, 2, {
         function()
-          local icon = require("lazyvim.config").icons.kinds.Copilot
+          local icon = require("config").icons.kinds.Copilot
           local status = require("copilot.api").status.data
           return icon .. (status.message or "")
         end,
@@ -52,7 +52,7 @@ return {
           copilot_cmp.setup(opts)
           -- attach cmp source whenever copilot attaches
           -- fixes lazy-loading issues with the copilot cmp source
-          require("lazyvim.util").on_attach(function(client)
+          require("util").on_attach(function(client)
             if client.name == "copilot" then
               copilot_cmp._on_insert_enter({})
             end

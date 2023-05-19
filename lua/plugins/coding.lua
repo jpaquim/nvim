@@ -73,7 +73,7 @@ return {
         }),
         formatting = {
           format = function(_, item)
-            local icons = require("lazyvim.config").icons.kinds
+            local icons = require("config").icons.kinds
             if icons[item.kind] then
               item.kind = icons[item.kind] .. item.kind
             end
@@ -163,7 +163,7 @@ return {
     config = function(_, opts)
       require("mini.ai").setup(opts)
       -- register all text objects with which-key
-      if require("lazyvim.util").has("which-key.nvim") then
+      if require("util").has("which-key.nvim") then
         ---@type table<string, string|table>
         local i = {
           [" "] = "Whitespace",
