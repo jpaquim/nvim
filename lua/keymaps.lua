@@ -1,4 +1,4 @@
--- This file is automatically loaded by config.init
+-- This file is automatically loaded by config
 
 local Util = require("util")
 

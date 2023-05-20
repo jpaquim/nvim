@@ -12,10 +12,10 @@ local defaults = {
   end,
   -- load the default settings
   defaults = {
-    autocmds = true, -- config.autocmds
-    keymaps = true, -- config.keymaps
-    -- config.options can't be configured here since that's loaded before lazyvim setup
-    -- if you want to disable loading options, add `package.loaded["config.options"] = true` to the top of your init.lua
+    autocmds = true,
+    keymaps = true,
+    -- options can't be configured here since that's loaded before lazyvim setup
+    -- if you want to disable loading options, add `package.loaded["options"] = true` to the top of your init.lua
   },
   -- icons used by other plugins
   icons = {
@@ -154,7 +154,7 @@ function M.load(name)
   end
   -- always load lazyvim
   if M.defaults[name] or name == "options" then
-    _load("config." .. name)
+    _load(name)
   end
   if vim.bo.filetype == "lazy" then
     -- HACK: LazyVim may have overwritten options of the Lazy ui, so reset this here
