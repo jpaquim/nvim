@@ -11,6 +11,7 @@ require("lazy").setup({
     -- add LazyVim and import its plugins
     { import = "plugins" },
     -- import any extras modules here
+    { import = "plugins.extras.lang.lisp" },
     -- { import = "plugins.extras.lang.typescript" },
     -- { import = "plugins.extras.lang.json" },
     -- { import = "plugins.extras.ui.mini-animate" },
