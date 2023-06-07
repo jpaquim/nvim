@@ -83,3 +83,10 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+  pattern = { "*.wat" },
+  callback = function()
+    vim.o.syntax = "wast"
+  end,
+})
