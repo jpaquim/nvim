@@ -8,10 +8,15 @@ return {
     opts = {
       suggestion = { enabled = false },
       panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
     },
   },
   {
     "nvim-lualine/lualine.nvim",
+    optional = true,
     event = "VeryLazy",
     opts = function(_, opts)
       local Util = require("util")
@@ -32,6 +37,9 @@ return {
           return ok and #clients > 0
         end,
         color = function()
+          if not package.loaded["copilot"] then
+            return
+          end
           local status = require("copilot.api").status.data
           return colors[status.status] or colors[""]
         end,
