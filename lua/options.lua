@@ -1,4 +1,4 @@
--- This file is automatically loaded by plugins.config
+-- This file is automatically loaded by config
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
@@ -53,3 +53,6 @@ end
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+-- default to C-style comments style
+opt.commentstring = "// %s"
