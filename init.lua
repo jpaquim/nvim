@@ -12,6 +12,7 @@ require("lazy").setup({
     { import = "plugins" },
     -- import any extras modules here
     { import = "plugins.extras.lang.lisp" },
+    { import = "plugins.extras.lang.glsl" },
     -- { import = "plugins.extras.lang.typescript" },
     -- { import = "plugins.extras.lang.json" },
     -- { import = "plugins.extras.ui.mini-animate" },
@@ -44,4 +45,4 @@ require("lazy").setup({
   },
 })
 
-require('config').setup()
+require("config").setup()
