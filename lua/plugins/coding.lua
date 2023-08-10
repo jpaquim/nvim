@@ -42,7 +42,9 @@ return {
       "saadparwaiz1/cmp_luasnip",
     },
     opts = function()
+      vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
       local cmp = require("cmp")
+      local defaults = require("cmp.config.default")()
       return {
         completion = {
           completeopt = "menu,menuone,noinsert",
@@ -82,9 +84,10 @@ return {
         },
         experimental = {
           ghost_text = {
-            hl_group = "LspCodeLens",
+            hl_group = "CmpGhostText",
           },
         },
+        sorting = defaults.sorting,
       }
     end,
   },
@@ -96,7 +99,10 @@ return {
     opts = {},
   },
 
-  -- surround
+  -- Fast and feature-rich surround actions. For text that includes
+  -- surrounding characters like brackets or quotes, this allows you
+  -- to select the text inside, change or modify the surrounding characters,
+  -- and more.
   {
     "echasnovski/mini.surround",
     keys = function(_, keys)
@@ -144,7 +150,7 @@ return {
     },
   },
 
-  -- better text-objects
+  -- Better text-objects
   {
     "echasnovski/mini.ai",
     -- keys = {
@@ -170,7 +176,7 @@ return {
     config = function(_, opts)
       require("mini.ai").setup(opts)
       -- register all text objects with which-key
-      if require("util").has("which-key.nvim") then
+      require("util").on_load("which-key.nvim", function()
         ---@type table<string, string|table>
         local i = {
           [" "] = "Whitespace",
@@ -211,7 +217,7 @@ return {
           i = i,
           a = a,
         })
-      end
+      end)
     end,
   },
 }

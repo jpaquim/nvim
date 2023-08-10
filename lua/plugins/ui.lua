@@ -49,7 +49,8 @@ return {
     end,
   },
 
-  -- bufferline
+  -- This is what powers LazyVim's fancy-looking
+  -- tabs, which include filetype icons and close buttons.
   {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
@@ -186,7 +187,9 @@ return {
     },
   },
 
-  -- active indent guide and indent text objects
+  -- Active indent guide and indent text objects. When you're browsing
+  -- code, this highlights the current level of indentation, and animates
+  -- the highlighting.
   {
     "echasnovski/mini.indentscope",
     version = false, -- wait till new 0.7.0 release to put it back on semver
@@ -219,19 +222,16 @@ return {
 
   -- noicer ui
   {
+    "folke/which-key.nvim",
+    opts = function(_, opts)
+      if require("util").has("noice.nvim") then
+        opts.defaults["<leader>sn"] = { name = "+noice" }
+      end
+    end,
+  },
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
-    dependencies = {
-      -- which key integration
-      {
-        "folke/which-key.nvim",
-        opts = function(_, opts)
-          if require("util").has("noice.nvim") then
-            opts.defaults["<leader>sn"] = { name = "+noice" }
-          end
-        end,
-      },
-    },
     opts = {
       lsp = {
         override = {
@@ -272,7 +272,8 @@ return {
     },
   },
 
-  -- dashboard
+  -- Dashboard. This runs when neovim starts, and is what displays
+  -- the "LAZYVIM" banner.
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
@@ -334,7 +335,9 @@ return {
     end,
   },
 
-  -- lsp symbol navigation for lualine
+  -- lsp symbol navigation for lualine. This shows where
+  -- in the code structure you are - within functions, classes,
+  -- etc - in the statusline.
   {
     "SmiteshP/nvim-navic",
     lazy = true,
