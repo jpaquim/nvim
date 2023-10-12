@@ -18,7 +18,7 @@ mv config/*.lua .
 mv util/init.lua util.lua
 
 rm init.lua
-rmdir config util
+rmdir config
 
 find . -type f -exec sed -i \
 	-e 's/lazyvim\.config/config/g' \

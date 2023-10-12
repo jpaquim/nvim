@@ -61,7 +61,7 @@ return {
         gopls = function(_, opts)
           -- workaround for gopls not supporting semanticTokensProvider
           -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
-          require("util").on_attach(function(client, _)
+          require("util").lsp.on_attach(function(client, _)
             if client.name == "gopls" then
               if not client.server_capabilities.semanticTokensProvider then
                 local semantic = client.config.capabilities.textDocument.semanticTokens
@@ -83,18 +83,25 @@ return {
   },
   -- Ensure Go tools are installed
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
+    optional = true,
     opts = function(_, opts)
-      if type(opts.sources) == "table" then
-        local nls = require("null-ls")
-        vim.list_extend(opts.sources, {
-          nls.builtins.code_actions.gomodifytags,
-          nls.builtins.code_actions.impl,
-          nls.builtins.formatting.gofumpt,
-          nls.builtins.formatting.goimports_reviser,
-        })
-      end
+      local nls = require("null-ls")
+      opts.sources = vim.list_extend(opts.sources or {}, {
+        nls.builtins.code_actions.gomodifytags,
+        nls.builtins.code_actions.impl,
+        nls.builtins.formatting.goimports,
+      })
     end,
+  },
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        go = { "goimports" },
+      },
+    },
   },
   {
     "mfussenegger/nvim-dap",
@@ -104,7 +111,7 @@ return {
         "mason.nvim",
         opts = function(_, opts)
           opts.ensure_installed = opts.ensure_installed or {}
-          vim.list_extend(opts.ensure_installed, { "gomodifytags", "impl", "gofumpt", "goimports-reviser", "delve" })
+          vim.list_extend(opts.ensure_installed, { "gomodifytags", "impl", "goimports", "delve" })
         end,
       },
       {
